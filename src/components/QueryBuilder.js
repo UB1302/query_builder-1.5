@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
+import FilterBox from './FilterBox';
 
 const QueryBuilder = ({setOpenQueryBuilder}) => {
+
+    const [query,setQuery] = useState("")
 
     function handleClick(e){
         if(e.target.classList.contains('backdrop')){
@@ -10,7 +13,15 @@ const QueryBuilder = ({setOpenQueryBuilder}) => {
 
     return (
         <div className="backdrop" onClick={handleClick}>
-            <div className= "modal-content">Hey</div>
+            <div className= "modal-content">
+            <h1>Hey</h1>
+            <div>
+                <input value = {query} ></input>
+            </div>
+            <div>
+                <FilterBox/>
+            </div>
+            </div>
         </div>
     )
 }
