@@ -1,19 +1,19 @@
 import { useState } from "react";
-import Modal from "./Modal";
+import QueryBuilder from "./QueryBuilder";
 
 const Dashboard = () => {
 
-    const [openModal, setOpenModal] = useState(false)
+    const [openQueryBuilder, setOpenQueryBuilder] = useState(false)
 
     const clickHandler = () => {
-        setOpenModal(true)
+        setOpenQueryBuilder(true)
     }
 
     return (
         <div>
             <h4>Build your query</h4>
             <button onClick = {clickHandler}>Build query</button>
-            {openModal && <Modal setOpenModal = {setOpenModal}>Modal says hi!</Modal>}
+            {openQueryBuilder && <QueryBuilder setOpenQueryBuilder = {setOpenQueryBuilder}></QueryBuilder>}
         </div>
     )
 }
