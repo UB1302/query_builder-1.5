@@ -3,7 +3,7 @@ import FilterBox from './FilterBox';
 
 const QueryBuilder = ({setOpenQueryBuilder}) => {
 
-    const [query,setQuery] = useState("")
+    const [query,setQuery] = useState("h")
     const [showInputBox,setShowInputBox] = useState(false)
 
     function handleClick(e){
@@ -27,13 +27,15 @@ const QueryBuilder = ({setOpenQueryBuilder}) => {
                     }
                     
                     {showInputBox ? 
-                        <div className= "mt-3"><input value = {query} ></input></div> : 
+                        <div className= "mt-3"><input value = {query}></input></div> : 
                         <p className = "text-sm text-gray-400">The query you build will be saved in your active view</p>
                     }
                 </div>
                 
                 <FilterBox/>
-                
+                <div>
+                    <button className = "bg-indigo-500 p-2 px-5 rounded-md">Finish</button>
+                </div>
             </div>
         </div>
     )

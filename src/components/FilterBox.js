@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Filter from "./Filter";
 
 const FilterBox = () => {
@@ -12,14 +12,29 @@ const FilterBox = () => {
         setNumberOfExtraFilters(prevCount => prevCount + 1)
     }
 
+    const deleteExtraFilter = (key) => {
+        listOfExtraFilters.splice(key,1)
+        setNumberOfExtraFilters(prevCount => prevCount - 1)
+    }
+
+    // useEffect(()=> {
+    //     for(let i = 1; i <= numberOfExtraFilters;i++){
+    //         listOfExtraFilters.push(<div key = {i}><Filter/><button onClick={()=> deleteExtraFilter(i)}>Delete</button></div>)
+    //     }
+    // },[numberOfExtraFilters])
+
     for(let i = 1; i <= numberOfExtraFilters;i++){
-        listOfExtraFilters.push(<Filter key = {i}/>)
+        listOfExtraFilters.push(<div key = {i}><Filter/><button onClick={()=> deleteExtraFilter(i)}>Delete</button></div>)
     }
 
 
     return(
-        <div className = "bg-gray-800 mt-24 w-4/5 m-auto">
-            {showOperator && <div>And/or</div>}
+        <div className = "bg-gray-800 mt-24 w-11/12 m-auto p-3 max-h-60 overflow-y-auto">
+            {showOperator && 
+                <div className ="mb-2">
+                    <button className = "bg-indigo-500">AND</button>
+                    <button className = "bg-gray-800">OR</button>
+                </div>}
             <Filter/>
             {listOfExtraFilters}
             <div>
