@@ -18,12 +18,12 @@ const FilterBox = () => {
 
 
     return(
-        <div>
+        <div className = "bg-gray-800 mt-24 w-4/5 m-auto">
             {showOperator && <div>And/or</div>}
             <Filter/>
             {listOfExtraFilters}
             <div>
-                <button onClick = {clickHandler}>Add filter</button>
+                <button className = "bg-indigo-500 p-2 px-3 rounded-md" onClick = {clickHandler}>Add filter</button>
             </div>
         </div>
     )

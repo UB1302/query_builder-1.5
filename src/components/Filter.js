@@ -1,10 +1,17 @@
+import { useState } from "react/cjs/react.development";
+
 const Filter = () => {
+
+    const [field, setField] = useState("")
+    const [condition, setCondition] = useState("")
+    const [criteria, setCriteria] = useState("")
+
     return (
-        <div>
+        <div className= "flex">
             <div>
                 <label for="field">Field</label>
                 <br/>
-                <select name="field" id="field">
+                <select id="field">
                     <option value="">Select field</option>
                     <option>Theme</option>
                     <option>Sub-theme</option>
@@ -14,7 +21,7 @@ const Filter = () => {
             <div>
                 <label for="condition">Condition</label>
                 <br/>
-                <select name="condition" id="condition">
+                <select id="condition">
                     <option>Equals</option>
                     <option>Does not equal</option>
                 </select>
@@ -23,7 +30,7 @@ const Filter = () => {
             <div>
                 <label for="criteria">Criteria</label>
                 <br/>
-                <select name="criteria" id="criteria">
+                <select id="criteria">
                     <option>Offers</option>
                     <option>Performance</option>
                 </select>
