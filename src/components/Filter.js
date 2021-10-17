@@ -1,15 +1,63 @@
-import { useEffect } from "react";
-import { useState } from "react/cjs/react.development";
+import { useState } from "react";
 
-const Filter = ({id,showDeleteButton,deleteExtraFilter}) => {
+const Filter = ({id,showDeleteButton,deleteExtraFilter,queryArray, setQueryArray}) => {
 
     const [field, setField] = useState("")
     const [condition, setCondition] = useState("")
     const [criteria, setCriteria] = useState("")
+    const [canUpdate,setCanUpdate] = useState(false)
 
-    const setFieldHandler = () => {
-
+    const setFieldHandler = (e) => {
+        console.log(e.target.value)
+        setField(e.target.value)
+        if(canUpdate){
+            setQueryArray(prev => prev.map(item => (item.id === id ? {
+                id: id,
+                field: e.target.value,
+                condition:condition,
+                criteria: criteria
+            } : item)))
+        }
     }
+
+    const setConditionHandler = (e) => {
+        console.log(e.target.value)
+        setCondition(e.target.value)
+        if(canUpdate){
+            setQueryArray(prev => prev.map(item => (item.id === id ? {
+                id: id,
+                field: field,
+                condition:e.target.value,
+                criteria: criteria
+            } : item)))
+        }
+    }
+
+    const setCriteriaHandler = (e) => {
+        console.log(e.target.value)
+        setCriteria(e.target.value)
+        if(canUpdate){
+            setQueryArray(prev => prev.map(item => (item.id === id ? {
+                id: id,
+                field: field,
+                condition:condition,
+                criteria: e.target.value
+            } : item)))
+        }
+    }
+    if(!canUpdate){
+        if(field && condition && criteria){
+            setCanUpdate(true)
+            let newQuery = {
+                id: id,
+                field: field,
+                condition:condition,
+                criteria: criteria
+            }
+            setQueryArray([...queryArray,newQuery])
+        }
+    }
+    
 
 
     return (
@@ -38,7 +86,7 @@ const Filter = ({id,showDeleteButton,deleteExtraFilter}) => {
             <div className= "w-1/3 mr-3">
                 <label htmlFor="condition">Condition</label>
                 <br/>
-                <select defaultValue= {criteria} id="condition" className= "bg-gray-700 w-full p-2 rounded">
+                <select defaultValue= {condition} onChange = {setConditionHandler} id="condition" className= "bg-gray-700 w-full p-2 rounded">
                 <option value="" disabled hidden>Select condition</option>
                     <option>Equals</option>
                     <option>Does not equal</option>
@@ -53,7 +101,7 @@ const Filter = ({id,showDeleteButton,deleteExtraFilter}) => {
             <div className= "w-1/3">
                 <label htmlFor="criteria">Criteria</label>
                 <br/>
-                <select defaultValue= {criteria} id="criteria" className= "bg-gray-700 w-full p-2 rounded">
+                <select defaultValue= {criteria} onChange = {setCriteriaHandler} id="criteria" className= "bg-gray-700 w-full p-2 rounded">
                 <option value="" disabled hidden>Select criteria</option>
                     <option>Offers</option>
                     <option>Performance</option>

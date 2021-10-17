@@ -5,6 +5,8 @@ const QueryBuilder = ({setOpenQueryBuilder}) => {
 
     const [query,setQuery] = useState("h")
     const [showInputBox,setShowInputBox] = useState(false)
+    const [queryArray,setQueryArray] = useState([])
+    console.log(queryArray)
 
     function handleClick(e){
         if(e.target.classList.contains('backdrop')){
@@ -19,6 +21,7 @@ const QueryBuilder = ({setOpenQueryBuilder}) => {
             clearTimeout(timeoutID);
         }
     },[])
+
 
     return (
         <div className="backdrop" onClick={handleClick}>
@@ -35,7 +38,7 @@ const QueryBuilder = ({setOpenQueryBuilder}) => {
                     }
                 </div>
                 
-                <FilterBox/>
+                <FilterBox queryArray = {queryArray} setQueryArray = {setQueryArray}/>
                 <div>
                     <button className = "bg-indigo-500 p-2 px-5 rounded-md">Finish</button>
                 </div>

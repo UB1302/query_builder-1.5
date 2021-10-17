@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import {useState } from "react";
 import Filter from "./Filter";
 
-const FilterBox = () => {
+const FilterBox = ({queryArray, setQueryArray}) => {
 
     const [showOperator,setShowOperator] = useState(false)
     const [numberOfExtraFilters, setNumberOfExtraFilters] = useState(1)
@@ -19,10 +19,12 @@ const FilterBox = () => {
 
 
     const deleteExtraFilter = (id) => {
-        console.log(id)
-        console.log(listOfExtraFilters)
+        // console.log(id)
+        // console.log(listOfExtraFilters)
         let temp = [...listOfExtraFilters].filter((item)=>item.id !== id)
-        console.log(temp)
+        // console.log(temp)
+        let tempQueryArray = [...queryArray].filter((item)=>item.id !== id)
+        setQueryArray(tempQueryArray)
         setListOfExtraFilters(temp)
     }
 
@@ -34,9 +36,9 @@ const FilterBox = () => {
                     <button className = "bg-indigo-500">AND</button>
                     <button className = "bg-gray-800">OR</button>
                 </div>}
-            <Filter id = {0} showDeleteButton = {false}/>
+            <Filter id = {0} showDeleteButton = {false} queryArray = {queryArray} setQueryArray = {setQueryArray}/>
             {listOfExtraFilters.map((item)=>{
-                return <Filter id = {item.id} key = {item.id} showDeleteButton = {true} deleteExtraFilter = {deleteExtraFilter}/>
+                return <Filter id = {item.id} key = {item.id} queryArray = {queryArray} setQueryArray = {setQueryArray} showDeleteButton = {true} deleteExtraFilter = {deleteExtraFilter}/>
             })}
             <div>
                 <button className = "bg-indigo-500 p-2 px-3 rounded-md" onClick = {clickHandler}>Add filter</button>
