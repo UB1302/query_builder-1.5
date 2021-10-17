@@ -3,7 +3,7 @@ import FilterBox from './FilterBox';
 
 const QueryBuilder = ({setOpenQueryBuilder}) => {
 
-    const [query,setQuery] = useState("h")
+    const [query,setQuery] = useState("hey")
     const [showInputBox,setShowInputBox] = useState(false)
     const [queryArray,setQueryArray] = useState([])
     console.log(queryArray)
@@ -13,6 +13,11 @@ const QueryBuilder = ({setOpenQueryBuilder}) => {
             setOpenQueryBuilder(false)
         }
     }
+
+    const setHumanReadableQuery = () => {
+        setQuery()
+    }
+
     useEffect(()=>{
         let timeoutID = setTimeout(()=>{
             setShowInputBox(true)
@@ -22,6 +27,25 @@ const QueryBuilder = ({setOpenQueryBuilder}) => {
         }
     },[])
 
+    useEffect(()=>{
+        if(queryArray){
+            let tempArray = queryArray
+        tempArray.sort(function (a, b) {
+            return a.id - b.id;
+          });
+          console.log(tempArray)
+          let str = "";
+          tempArray.forEach((item)=>{
+            str = str + item.field + item.condition + item.criteria
+          })
+          console.log(str)
+        //   setHumanReadableQuery()
+        setQuery(str)
+        }
+        
+    },[queryArray])
+
+    
 
     return (
         <div className="backdrop" onClick={handleClick}>
@@ -33,7 +57,7 @@ const QueryBuilder = ({setOpenQueryBuilder}) => {
                     }
                     
                     {showInputBox ? 
-                        <div className= "mt-3"><input value = {query}></input></div> : 
+                        <div className= "mt-3"><p className = "bg-white text-black">{query}</p></div> : 
                         <p className = "text-sm text-gray-400">The query you build will be saved in your active view</p>
                     }
                 </div>
