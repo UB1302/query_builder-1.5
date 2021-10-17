@@ -4,27 +4,26 @@ import Filter from "./Filter";
 const FilterBox = () => {
 
     const [showOperator,setShowOperator] = useState(false)
-    const [numberOfExtraFilters, setNumberOfExtraFilters] = useState(0)
-    const listOfExtraFilters = []
+    const [numberOfExtraFilters, setNumberOfExtraFilters] = useState(1)
+    const [listOfExtraFilters,setListOfExtraFilters] = useState([])
 
     const clickHandler = () => {
         setShowOperator(true)
+        let extraFilter = {
+            id:numberOfExtraFilters,
+        }
+
+        setListOfExtraFilters([...listOfExtraFilters,extraFilter])
         setNumberOfExtraFilters(prevCount => prevCount + 1)
     }
 
-    const deleteExtraFilter = (key) => {
-        listOfExtraFilters.splice(key,1)
-        setNumberOfExtraFilters(prevCount => prevCount - 1)
-    }
 
-    // useEffect(()=> {
-    //     for(let i = 1; i <= numberOfExtraFilters;i++){
-    //         listOfExtraFilters.push(<div key = {i}><Filter/><button onClick={()=> deleteExtraFilter(i)}>Delete</button></div>)
-    //     }
-    // },[numberOfExtraFilters])
-
-    for(let i = 1; i <= numberOfExtraFilters;i++){
-        listOfExtraFilters.push(<div key = {i}><Filter/><button onClick={()=> deleteExtraFilter(i)}>Delete</button></div>)
+    const deleteExtraFilter = (id) => {
+        console.log(id)
+        console.log(listOfExtraFilters)
+        let temp = [...listOfExtraFilters].filter((item)=>item.id !== id)
+        console.log(temp)
+        setListOfExtraFilters(temp)
     }
 
 
@@ -35,8 +34,10 @@ const FilterBox = () => {
                     <button className = "bg-indigo-500">AND</button>
                     <button className = "bg-gray-800">OR</button>
                 </div>}
-            <Filter/>
-            {listOfExtraFilters}
+            <Filter id = {0} showDeleteButton = {false}/>
+            {listOfExtraFilters.map((item)=>{
+                return <Filter id = {item.id} key = {item.id} showDeleteButton = {true} deleteExtraFilter = {deleteExtraFilter}/>
+            })}
             <div>
                 <button className = "bg-indigo-500 p-2 px-3 rounded-md" onClick = {clickHandler}>Add filter</button>
             </div>

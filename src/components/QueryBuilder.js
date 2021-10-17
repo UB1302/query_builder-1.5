@@ -12,9 +12,12 @@ const QueryBuilder = ({setOpenQueryBuilder}) => {
         }
     }
     useEffect(()=>{
-        setTimeout(()=>{
+        let timeoutID = setTimeout(()=>{
             setShowInputBox(true)
         },5000)
+        return ()=>{
+            clearTimeout(timeoutID);
+        }
     },[])
 
     return (
