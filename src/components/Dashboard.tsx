@@ -3,9 +3,9 @@ import QueryBuilder from "./QueryBuilder";
 
 const Dashboard = () => {
 
-    const [openQueryBuilder, setOpenQueryBuilder] = useState(false)
+    const [openQueryBuilder, setOpenQueryBuilder] = useState<boolean>(false)
 
-    const clickHandler = () => {
+    const clickHandler = ():void => {
         setOpenQueryBuilder(true)
     }
 

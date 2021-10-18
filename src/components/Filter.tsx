@@ -1,39 +1,61 @@
 import { useState } from "react";
+import {Rule, RuleGroup} from "../App"
+// import {QueryArrayInterface} from "./QueryBuilder"
 
-const Filter = ({id,showDeleteButton,deleteExtraFilter,queryArray, setQueryArray}) => {
+interface FilterProps {
+    id: number,
+    showDeleteButton: boolean,
+    deleteExtraFilter?: any, 
+    queryArray: RuleGroup["children"]
+    setQueryArray: React.Dispatch<React.SetStateAction<(RuleGroup | Rule)[]>>
+}
 
-    const [field, setField] = useState("")
-    const [condition, setCondition] = useState("")
-    const [criteria, setCriteria] = useState("")
-    const [canUpdate,setCanUpdate] = useState(false)
 
-    const setFieldHandler = (e) => {
+const Filter: React.FC<FilterProps> = ({id, showDeleteButton, deleteExtraFilter, queryArray, setQueryArray}) => {
+
+
+    const [field, setField] = useState<Rule["field"]>()
+    const [condition, setCondition] = useState<Rule["condition"]>()
+    const [criteria, setCriteria] = useState<Rule["criteria"]>()
+    const [canUpdate,setCanUpdate] = useState<boolean>(false)
+
+    const setFieldHandler = (e: React.ChangeEvent<HTMLSelectElement>):void => {
         console.log(e.target.value)
-        setField(e.target.value)
+        // let i: Rule["field"] =  e.target.value
+        // let i = 'Theme'
+        setField(e.target.value as Rule["field"])
         if(canUpdate){
+            // setQueryArray(prev => prev.map(item => (item.id === id ? {
+            //     id: id,
+            //     field: e.target.value,
+            //     condition:condition,
+            //     criteria: criteria
+            // } : item)))
             setQueryArray(prev => prev.map(item => (item.id === id ? {
                 id: id,
-                field: e.target.value,
+                field: e.target.value as Rule["field"],
                 condition:condition,
-                criteria: criteria
+                criteria: criteria,
+                type:"rule"
             } : item)))
         }
     }
 
-    const setConditionHandler = (e) => {
+    const setConditionHandler = (e: React.ChangeEvent<HTMLSelectElement>): void => {
         console.log(e.target.value)
-        setCondition(e.target.value)
+        setCondition(e.target.value as Rule["condition"])
         if(canUpdate){
             setQueryArray(prev => prev.map(item => (item.id === id ? {
                 id: id,
                 field: field,
-                condition:e.target.value,
-                criteria: criteria
+                condition:e.target.value as Rule["condition"],
+                criteria: criteria,
+                type:"rule"
             } : item)))
         }
     }
 
-    const setCriteriaHandler = (e) => {
+    const setCriteriaHandler = (e: React.ChangeEvent<HTMLSelectElement>): void => {
         console.log(e.target.value)
         setCriteria(e.target.value)
         if(canUpdate){
@@ -41,18 +63,20 @@ const Filter = ({id,showDeleteButton,deleteExtraFilter,queryArray, setQueryArray
                 id: id,
                 field: field,
                 condition:condition,
-                criteria: e.target.value
+                criteria: e.target.value,
+                type:"rule"
             } : item)))
         }
     }
     if(!canUpdate){
         if(field && condition && criteria){
             setCanUpdate(true)
-            let newQuery = {
-                id: id,
+            let newQuery:Rule = {
+                id:id,
                 field: field,
                 condition:condition,
-                criteria: criteria
+                criteria: criteria,
+                type:"rule"
             }
             setQueryArray([...queryArray,newQuery])
         }
@@ -65,20 +89,20 @@ const Filter = ({id,showDeleteButton,deleteExtraFilter,queryArray, setQueryArray
             <div className= "w-1/3 mr-3">
                 <label htmlFor="field">Field</label>
                 <br/>
-                <select defaultValue= {field} onChange = {setFieldHandler} id="field" className= "bg-gray-700 w-full p-2 rounded">
+                <select defaultValue = {field} onChange = {setFieldHandler} id="field" className= "bg-gray-700 w-full p-2 rounded">
                 
-                    <option value="" disabled hidden>Select field</option>
+                    <option value= "" disabled hidden>Select field</option>
                     <optgroup label="PREDICTION">
-                        <option>Theme</option>
-                        <option>Sub-theme</option>
-                        <option>Reason</option>
-                        <option>Language</option>
-                        <option>Source</option>
-                        <option>Rating</option>
-                        <option>Time Period</option>
+                        <option value = "Theme">Theme</option>
+                        <option value = "Sub-theme">Sub-theme</option>
+                        <option value = "Reason">Reason</option>
+                        <option value = "Language">Language</option>
+                        <option value = "Source">Source</option>
+                        <option value = "Rating">Rating</option>
+                        <option value = "Time Period">Time Period</option>
                     </optgroup>
                     <optgroup label="COMMON">
-                        <option>Customer ID</option>
+                        <option value = "Customer ID">Customer ID</option>
                     </optgroup>
                     </select>
             </div>

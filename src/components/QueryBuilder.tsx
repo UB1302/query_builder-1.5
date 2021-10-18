@@ -1,21 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import FilterBox from './FilterBox';
+import {RuleGroup} from "../App"
 
-const QueryBuilder = ({setOpenQueryBuilder}) => {
+interface QueryBuilderProps {
+    setOpenQueryBuilder: React.Dispatch<React.SetStateAction<boolean>>
+}
 
-    const [query,setQuery] = useState("hey")
-    const [showInputBox,setShowInputBox] = useState(false)
-    const [queryArray,setQueryArray] = useState([])
+
+// export interface QueryArrayInterface {
+//     id:number
+//     data: RuleGroup["children"]
+// }
+
+
+const QueryBuilder: React.FC<QueryBuilderProps> = ({setOpenQueryBuilder}) => {
+
+    const [humanReadableQuery,setHumanReadableQuery] = useState<string>("")
+    const [result, setResult] = useState<RuleGroup>()
+    const [showInputBox,setShowInputBox] = useState<boolean>(false)
+    const [queryArray,setQueryArray] = useState<RuleGroup["children"]>([])
     console.log(queryArray)
 
-    function handleClick(e){
+    const handleClick = (e:any):void => {
+        
         if(e.target.classList.contains('backdrop')){
             setOpenQueryBuilder(false)
         }
-    }
-
-    const setHumanReadableQuery = () => {
-        setQuery()
     }
 
     useEffect(()=>{
@@ -30,17 +40,18 @@ const QueryBuilder = ({setOpenQueryBuilder}) => {
     useEffect(()=>{
         if(queryArray){
             let tempArray = queryArray
-        tempArray.sort(function (a, b) {
-            return a.id - b.id;
-          });
-          console.log(tempArray)
-          let str = "";
-          tempArray.forEach((item)=>{
-            str = str + item.field + item.condition + item.criteria
-          })
-          console.log(str)
-        //   setHumanReadableQuery()
-        setQuery(str)
+            console.log(tempArray)
+        // tempArray.sort(function (a, b) {
+        //     return a.id - b.id;
+        //   });
+        //   console.log(tempArray)
+        //   let str = "";
+        //   tempArray.forEach((item)=>{
+        //     str = str + item.field + item.condition + item.criteria
+        //   })
+        //   console.log(str)
+        // //   setHumanReadableQuery()
+        // setHumanReadableQuery(str)
         }
         
     },[queryArray])
@@ -57,7 +68,7 @@ const QueryBuilder = ({setOpenQueryBuilder}) => {
                     }
                     
                     {showInputBox ? 
-                        <div className= "mt-3"><p className = "bg-white text-black">{query}</p></div> : 
+                        <div className= "mt-3"><p className = "bg-white text-black">{humanReadableQuery}</p></div> : 
                         <p className = "text-sm text-gray-400">The query you build will be saved in your active view</p>
                     }
                 </div>

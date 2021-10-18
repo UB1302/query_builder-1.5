@@ -1,11 +1,23 @@
 import {useState } from "react";
 import Filter from "./Filter";
+import {Rule, RuleGroup} from "../App"
 
-const FilterBox = ({queryArray, setQueryArray}) => {
+interface FilterBoxProps {
+    queryArray: RuleGroup["children"]
+    setQueryArray: React.Dispatch<React.SetStateAction<(RuleGroup | Rule)[]>>
+}
 
-    const [showOperator,setShowOperator] = useState(false)
-    const [numberOfExtraFilters, setNumberOfExtraFilters] = useState(1)
-    const [listOfExtraFilters,setListOfExtraFilters] = useState([])
+interface ff {
+   extraFilters: {
+        id: number
+    }[]
+}
+
+const FilterBox: React.FC<FilterBoxProps> = ({queryArray, setQueryArray}) => {
+
+    const [showOperator,setShowOperator] = useState<boolean>(false)
+    const [numberOfExtraFilters, setNumberOfExtraFilters] = useState<number>(1)
+    const [listOfExtraFilters,setListOfExtraFilters] = useState<ff["extraFilters"]>([])
 
     const clickHandler = () => {
         setShowOperator(true)
@@ -18,7 +30,7 @@ const FilterBox = ({queryArray, setQueryArray}) => {
     }
 
 
-    const deleteExtraFilter = (id) => {
+    const deleteExtraFilter = (id:number) => {
         // console.log(id)
         // console.log(listOfExtraFilters)
         let temp = [...listOfExtraFilters].filter((item)=>item.id !== id)
