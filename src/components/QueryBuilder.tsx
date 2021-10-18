@@ -19,6 +19,7 @@ const QueryBuilder: React.FC<QueryBuilderProps> = ({setOpenQueryBuilder}) => {
     const [result, setResult] = useState<RuleGroup>()
     const [showInputBox,setShowInputBox] = useState<boolean>(false)
     const [queryArray,setQueryArray] = useState<RuleGroup["children"]>([])
+    const [conjunction,setConjunction] = useState('AND')
     console.log(queryArray)
 
     const handleClick = (e:any):void => {
