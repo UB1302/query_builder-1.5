@@ -12,7 +12,7 @@ export interface Rule {
 
 export interface RuleGroup {
   id:number
-  children: (RuleGroup | Rule)[]
+  children: Rule[];
   conjunction: 'AND' | 'OR'
   not: boolean
   type: 'rule_group'

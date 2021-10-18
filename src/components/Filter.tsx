@@ -6,7 +6,7 @@ interface FilterProps {
     showDeleteButton: boolean,
     deleteExtraFilter?: any, 
     queryArray: RuleGroup["children"]
-    setQueryArray: React.Dispatch<React.SetStateAction<(RuleGroup | Rule)[]>>
+    setQueryArray: React.Dispatch<React.SetStateAction<Rule[]>>
 }
 
 
