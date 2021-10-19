@@ -77,6 +77,7 @@ const QueryBuilder: React.FC<QueryBuilderProps> = ({setOpenQueryBuilder}) => {
             str = str.substring(0,str.length-4)
             console.log(str);
             setHumanReadableQuery(str);
+            console.log(result)
         }
     },[result])
 

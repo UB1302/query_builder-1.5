@@ -131,7 +131,7 @@ const Filter: React.FC<FilterProps> = ({id, showDeleteButton, deleteExtraFilter,
                     <option>Product Feedback</option>
                 </select>
             </div>
-            {showDeleteButton &&  <div className = "ml-2 mt-5 bg-fifth border border-gray-700 rounded"><span className="material-icons p-1 pt-2 cursor-pointer	" onClick = {() => deleteExtraFilter(id)}>delete</span>
+            {showDeleteButton &&  <div className = "ml-2 mt-5 bg-fifth border border-gray-700 rounded"><span className="material-icons p-1 mt-1 cursor-pointer	" onClick = {() => deleteExtraFilter(id)}>delete</span>
             </div>}
             
             
