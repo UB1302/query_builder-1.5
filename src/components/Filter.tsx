@@ -1,6 +1,5 @@
 import { useState } from "react";
 import {Rule, RuleGroup} from "../App"
-import deleteIcon from "../assets/deleteIcon.png"
 
 interface FilterProps {
     id: number,
@@ -75,7 +74,7 @@ const Filter: React.FC<FilterProps> = ({id, showDeleteButton, deleteExtraFilter,
 
     if(!canUpdate){
         if(field && condition && criteria){
-            setTimeout(setInitialValues,1000)
+            setTimeout(setInitialValues,500)
             
         }
     }
@@ -87,11 +86,12 @@ const Filter: React.FC<FilterProps> = ({id, showDeleteButton, deleteExtraFilter,
             <div className= "w-1/4 mr-3">
                 <label className = "text-xs" htmlFor="field">Field</label>
                 <br/>
-                <select defaultValue = {field} onChange = {setFieldHandler} id="field" className= "bg-fifth border-gray-700 w-full p-1.5 rounded mt-1 text-sm">
+                <select defaultValue = {field} onChange = {setFieldHandler} id="field" className= "bg-fifth border-gray-700 w-full p-1.5 rounded mt-1 text-sm outline-none cursor-pointer">
                 
-                    <option className ="bg-fifth" value= "" disabled hidden>Select field</option>
-                    <optgroup label="PREDICTION">
-                        <option value = "Theme">Theme</option>
+                    <option value= "" disabled hidden>Select field</option> 
+                    <optgroup className = "my-8" label="PREDICTION">
+                        
+                        <option className = "my-4" value = "Theme">Theme</option>
                         <option value = "Sub-theme">Sub-theme</option>
                         <option value = "Reason">Reason</option>
                         <option value = "Language">Language</option>
@@ -108,7 +108,7 @@ const Filter: React.FC<FilterProps> = ({id, showDeleteButton, deleteExtraFilter,
             <div className= "w-1/4 mr-3">
                 <label className = "text-xs" htmlFor="condition">Condition</label>
                 <br/>
-                <select defaultValue= {condition} onChange = {setConditionHandler} id="condition" className= "bg-fifth border border-gray-700 w-full p-1.5 rounded mt-1 text-sm">
+                <select defaultValue= {condition} onChange = {setConditionHandler} id="condition" className= "bg-fifth border border-gray-700 w-full p-1.5 rounded mt-1 text-sm outline-none cursor-pointer">
                 <option value="" disabled hidden>Select condition</option>
                     <option>Equals</option>
                     <option>Does not equal</option>
@@ -123,7 +123,7 @@ const Filter: React.FC<FilterProps> = ({id, showDeleteButton, deleteExtraFilter,
             <div className= "w-1/4">
                 <label className = "text-xs" htmlFor="criteria">Criteria</label>
                 <br/>
-                <select defaultValue= {criteria} onChange = {setCriteriaHandler} id="criteria" className= "bg-fifth border border-gray-700 w-full p-1.5 rounded mt-1 text-sm">
+                <select defaultValue= {criteria} onChange = {setCriteriaHandler} id="criteria" className= "bg-fifth border border-gray-700 w-full p-1.5 rounded mt-1 text-sm outline-none cursor-pointer">
                 <option value="" disabled hidden>Select criteria</option>
                     <option>Offers</option>
                     <option>Performance</option>

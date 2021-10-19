@@ -70,34 +70,43 @@ const QueryBuilder: React.FC<QueryBuilderProps> = ({setOpenQueryBuilder}) => {
         if(result){
             let str = "";
             result.children.forEach((item)=>{
-                str = str + item.field + " " + item.condition + " \\" + item.criteria + "\\ " + result.conjunction + " "
+                let conjunctionSymbol = result.conjunction === "AND" ? "&&" : "||"
+                str = str + "\"(field."+item.field + ") " + item.condition + " \\\"" + item.criteria + "\"\\\" " + conjunctionSymbol + " "
+                
             })
+            str = str.substring(0,str.length-4)
             console.log(str);
             setHumanReadableQuery(str);
         }
     },[result])
 
-    
+    const closeHandler = () => {
+        setOpenQueryBuilder(false)
+    }
 
     return (
         <div className="backdrop" onClick={handleClick}>
-            <div className= "modal-content bg-primary  text-base rounded-md">
-                <div className = "bg-secondary rounded-t p-5">
+            <div className= "modal-content bg-primary  text-base rounded-md overflow-y-auto relative">
+                <div className = "bg-secondary rounded-t p-5 relative">
                     {showInputBox ? 
                         <h1 className = "text-2xl">Build your query</h1> : 
                         <h1 className = "text-2xl">Create tag and query</h1>
                     }
                     
                     {showInputBox ? 
-                        <div className= "mt-3"><p className = "bg-white text-white bg-fourth p-1 rounded"><span className="font-semibold">Query:</span>{humanReadableQuery}</p></div> : 
+                        <div className= "mt-3"><p className = "bg-white text-white bg-fourth p-1 rounded text-sm"><span className="font-semibold">Query: </span>{humanReadableQuery}</p></div> : 
                         <p className = "text-sm text-gray-400">The query you build will be saved in your active view</p>
                     }
+
+                    <span onClick = {closeHandler} className="material-icons-outlined absolute top-2 right-2 pt-0.5 bg-fourth cursor-pointer">close</span>
                 </div>
                 
                 <FilterBox queryArray = {queryArray} setQueryArray = {setQueryArray} conjunction = {conjunction}  setConjunction = {setConjunction}/>
-                <div>
-                    <button className = "bg-secondary p-2 px-5 rounded-md">Finish</button>
+                <div className = "flex justify-between mt-20 mr-2 mb-2">
+                    <button onClick = {closeHandler} className = "bg-gray-seventh p-2 ml-3 w-20 rounded-md">Back</button>
+                    <button className = "bg-secondary p-2 w-20 rounded-md">Finish</button>
                 </div>
+                
             </div>
         </div>
     )

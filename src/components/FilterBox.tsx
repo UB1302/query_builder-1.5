@@ -52,7 +52,7 @@ const FilterBox: React.FC<FilterBoxProps> = ({queryArray, setQueryArray, conjunc
     }   
 
     return(
-        <div className = "bg-third rounded border border-gray-700 mt-24 w-11/12 m-auto p-3 max-h-60 overflow-y-auto">
+        <div className = "bg-third rounded border border-gray-700 mt-24 w-11/12 m-auto p-3 mb-4">
             {showOperator && 
                 <div className ="mb-2">
                     <button onClick = {andConjunctionHandler} className = "bg-indigo-500">AND</button>
@@ -62,8 +62,12 @@ const FilterBox: React.FC<FilterBoxProps> = ({queryArray, setQueryArray, conjunc
             {listOfExtraFilters.map((item)=>{
                 return <Filter id = {item.id} key = {item.id} queryArray = {queryArray} setQueryArray = {setQueryArray} showDeleteButton = {true} deleteExtraFilter = {deleteExtraFilter}/>
             })}
-            <div>
-                <button className = "bg-secondary p-2 px-3 rounded-md" onClick = {clickHandler}>Add filter</button>
+            <div className ="flex flex-row content-center bg-secondary rounded-md text-sm w-24 p-0.5 cursor-pointer" onClick = {clickHandler}>
+                <div className ="p-1 ml-1">
+                <span className ="material-icons-outlined text-xs">add</span>
+                </div>
+                <p className ="pt-1 pr-0.5">Add filter</p>
+                {/* <button className = "bg-secondary p-2 px-3 rounded-md text-sm" onClick = {clickHandler}><span className ="material-icons-outlined">add</span> Add filter</button> */}
             </div>
         </div>
     )

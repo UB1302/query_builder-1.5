@@ -24,6 +24,7 @@ module.exports = {
       'fourth': "#4954CA",
       "fifth": "#3E4045",
       "gray-sixth":"#383A3F",
+      "gray-seventh": "#6D7175",
       'danger': '#e3342f',
      })
   },
