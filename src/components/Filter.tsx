@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {Rule, RuleGroup} from "../App"
+import deleteIcon from "../assets/deleteIcon.png"
 
 interface FilterProps {
     id: number,
@@ -59,30 +60,36 @@ const Filter: React.FC<FilterProps> = ({id, showDeleteButton, deleteExtraFilter,
             } : item)))
         }
     }
+
+    const setInitialValues = () => {
+        setCanUpdate(true)
+        let newQuery:Rule= {
+            id:id,
+            field: field as Rule["field"],
+            condition:condition as Rule["condition"],
+            criteria: criteria,
+            type:"rule"
+        }
+        setQueryArray([...queryArray,newQuery])
+    }
+
     if(!canUpdate){
         if(field && condition && criteria){
-            setCanUpdate(true)
-            let newQuery:Rule= {
-                id:id,
-                field: field as Rule["field"],
-                condition:condition as Rule["condition"],
-                criteria: criteria,
-                type:"rule"
-            }
-            setQueryArray([...queryArray,newQuery])
+            setTimeout(setInitialValues,1000)
+            
         }
     }
     
 
 
     return (
-        <div className= "flex justify-start mb-3"> 
-            <div className= "w-1/3 mr-3">
-                <label htmlFor="field">Field</label>
+        <div className= "flex justify-start  mb-3"> 
+            <div className= "w-1/4 mr-3">
+                <label className = "text-xs" htmlFor="field">Field</label>
                 <br/>
-                <select defaultValue = {field} onChange = {setFieldHandler} id="field" className= "bg-gray-700 w-full p-2 rounded">
+                <select defaultValue = {field} onChange = {setFieldHandler} id="field" className= "bg-fifth border-gray-700 w-full p-1.5 rounded mt-1 text-sm">
                 
-                    <option value= "" disabled hidden>Select field</option>
+                    <option className ="bg-fifth" value= "" disabled hidden>Select field</option>
                     <optgroup label="PREDICTION">
                         <option value = "Theme">Theme</option>
                         <option value = "Sub-theme">Sub-theme</option>
@@ -98,10 +105,10 @@ const Filter: React.FC<FilterProps> = ({id, showDeleteButton, deleteExtraFilter,
                     </select>
             </div>
             
-            <div className= "w-1/3 mr-3">
-                <label htmlFor="condition">Condition</label>
+            <div className= "w-1/4 mr-3">
+                <label className = "text-xs" htmlFor="condition">Condition</label>
                 <br/>
-                <select defaultValue= {condition} onChange = {setConditionHandler} id="condition" className= "bg-gray-700 w-full p-2 rounded">
+                <select defaultValue= {condition} onChange = {setConditionHandler} id="condition" className= "bg-fifth border border-gray-700 w-full p-1.5 rounded mt-1 text-sm">
                 <option value="" disabled hidden>Select condition</option>
                     <option>Equals</option>
                     <option>Does not equal</option>
@@ -113,10 +120,10 @@ const Filter: React.FC<FilterProps> = ({id, showDeleteButton, deleteExtraFilter,
                 </select>
             </div>
             
-            <div className= "w-1/3">
-                <label htmlFor="criteria">Criteria</label>
+            <div className= "w-1/4">
+                <label className = "text-xs" htmlFor="criteria">Criteria</label>
                 <br/>
-                <select defaultValue= {criteria} onChange = {setCriteriaHandler} id="criteria" className= "bg-gray-700 w-full p-2 rounded">
+                <select defaultValue= {criteria} onChange = {setCriteriaHandler} id="criteria" className= "bg-fifth border border-gray-700 w-full p-1.5 rounded mt-1 text-sm">
                 <option value="" disabled hidden>Select criteria</option>
                     <option>Offers</option>
                     <option>Performance</option>
@@ -124,8 +131,10 @@ const Filter: React.FC<FilterProps> = ({id, showDeleteButton, deleteExtraFilter,
                     <option>Product Feedback</option>
                 </select>
             </div>
-
-            {showDeleteButton && <button className = "bg-indigo-500 p-2 px-3 rounded-md" onClick = {() => deleteExtraFilter(id)}>Delete</button>}
+            {showDeleteButton &&  <div className = "ml-2 mt-5 bg-fifth border border-gray-700 rounded"><span className="material-icons p-1 pt-2 cursor-pointer	" onClick = {() => deleteExtraFilter(id)}>delete</span>
+            </div>}
+            
+            
             
         </div>
     )

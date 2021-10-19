@@ -81,22 +81,22 @@ const QueryBuilder: React.FC<QueryBuilderProps> = ({setOpenQueryBuilder}) => {
 
     return (
         <div className="backdrop" onClick={handleClick}>
-            <div className= "modal-content bg-gray-900 text-base rounded-md">
-                <div className = "bg-indigo-500 rounded-t p-5">
+            <div className= "modal-content bg-primary  text-base rounded-md">
+                <div className = "bg-secondary rounded-t p-5">
                     {showInputBox ? 
                         <h1 className = "text-2xl">Build your query</h1> : 
                         <h1 className = "text-2xl">Create tag and query</h1>
                     }
                     
                     {showInputBox ? 
-                        <div className= "mt-3"><p className = "bg-white text-black">{humanReadableQuery}</p></div> : 
+                        <div className= "mt-3"><p className = "bg-white text-white bg-fourth p-1 rounded"><span className="font-semibold">Query:</span>{humanReadableQuery}</p></div> : 
                         <p className = "text-sm text-gray-400">The query you build will be saved in your active view</p>
                     }
                 </div>
                 
                 <FilterBox queryArray = {queryArray} setQueryArray = {setQueryArray} conjunction = {conjunction}  setConjunction = {setConjunction}/>
                 <div>
-                    <button className = "bg-indigo-500 p-2 px-5 rounded-md">Finish</button>
+                    <button className = "bg-secondary p-2 px-5 rounded-md">Finish</button>
                 </div>
             </div>
         </div>
