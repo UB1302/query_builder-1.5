@@ -9,7 +9,7 @@ interface FilterBoxProps {
     setConjunction: React.Dispatch<React.SetStateAction<string>>
 }
 
-interface extraFiltersInterface {
+interface extraFiltersInterface {// To keep track of filters added by user other then the default filter
    extraFilters: {
         id: number
     }[]
@@ -21,7 +21,7 @@ const FilterBox: React.FC<FilterBoxProps> = ({queryArray, setQueryArray, conjunc
     const [numberOfExtraFilters, setNumberOfExtraFilters] = useState<number>(1)
     const [listOfExtraFilters,setListOfExtraFilters] = useState<extraFiltersInterface["extraFilters"]>([])
 
-    const clickHandler = () => {
+    const addHandler = () => {
         setShowOperator(true)
         let extraFilter = {
             id:numberOfExtraFilters,
@@ -57,7 +57,7 @@ const FilterBox: React.FC<FilterBoxProps> = ({queryArray, setQueryArray, conjunc
             {listOfExtraFilters.map((item)=>{
                 return <Filter id = {item.id} key = {item.id} queryArray = {queryArray} setQueryArray = {setQueryArray} showDeleteButton = {true} deleteExtraFilter = {deleteExtraFilter}/>
             })}
-            <div className ="flex flex-row content-center bg-secondary rounded-md text-sm w-24 p-0.5 cursor-pointer" onClick = {clickHandler}>
+            <div className ="flex flex-row content-center bg-secondary rounded-md text-sm w-24 p-0.5 cursor-pointer" onClick = {addHandler}>
                 <div className ="p-1 ml-1 mt-px">
                 <span className ="material-icons-outlined text-xs">add</span>
                 </div>

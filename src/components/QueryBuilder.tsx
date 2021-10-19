@@ -1,19 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import FilterBox from './FilterBox';
 import {RuleGroup} from "../App"
 
 interface QueryBuilderProps {
     setOpenQueryBuilder: React.Dispatch<React.SetStateAction<boolean>>
 }
-
-
-// export interface QueryArrayInterface {
-//     id:number
-//     data: RuleGroup["children"]
-// }
-// export type conjunctionType = {
-//     value: "AND" | "OR"
-// }
 
 const QueryBuilder: React.FC<QueryBuilderProps> = ({setOpenQueryBuilder}) => {
 
@@ -22,10 +13,8 @@ const QueryBuilder: React.FC<QueryBuilderProps> = ({setOpenQueryBuilder}) => {
     const [showInputBox,setShowInputBox] = useState<boolean>(false)
     const [queryArray,setQueryArray] = useState<RuleGroup["children"]>([])
     const [conjunction,setConjunction] = useState("AND")
-    console.log(queryArray)
 
     const handleClick = (e:any):void => {
-        
         if(e.target.classList.contains('backdrop')){
             setOpenQueryBuilder(false)
         }
@@ -43,11 +32,9 @@ const QueryBuilder: React.FC<QueryBuilderProps> = ({setOpenQueryBuilder}) => {
     useEffect(()=>{
         if(queryArray){
             let tempArray = queryArray
-            console.log(tempArray)
-        tempArray.sort(function (a, b) {
-            return a.id - b.id;
-          });
-          console.log(tempArray)
+            tempArray.sort(function (a, b) {
+                return a.id - b.id;
+            });
           setResult({
               id: 0,
               children: tempArray,
@@ -55,15 +42,7 @@ const QueryBuilder: React.FC<QueryBuilderProps> = ({setOpenQueryBuilder}) => {
               not: false,
               type: 'rule_group'
           })
-        //   let str = "";
-        //   tempArray.forEach((item)=>{
-        //     str = str + item.field + item.condition + item.criteria
-        //   })
-        //   console.log(str)
-        // //   setHumanReadableQuery()
-        // setHumanReadableQuery(str)
-        }
-        
+        } 
     },[queryArray,conjunction])
 
     useEffect(()=>{
@@ -75,9 +54,7 @@ const QueryBuilder: React.FC<QueryBuilderProps> = ({setOpenQueryBuilder}) => {
                 
             })
             str = str.substring(0,str.length-4)
-            console.log(str);
             setHumanReadableQuery(str);
-            console.log(result)
         }
     },[result])
 

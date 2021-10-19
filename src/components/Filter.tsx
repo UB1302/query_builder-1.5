@@ -9,17 +9,14 @@ interface FilterProps {
     setQueryArray: React.Dispatch<React.SetStateAction<Rule[]>>
 }
 
-
 const Filter: React.FC<FilterProps> = ({id, showDeleteButton, deleteExtraFilter, queryArray, setQueryArray}) => {
-
 
     const [field, setField] = useState<string>("")
     const [condition, setCondition] = useState<string>("")
     const [criteria, setCriteria] = useState<string>("")
-    const [canUpdate,setCanUpdate] = useState<boolean>(false)
+    const [canUpdate,setCanUpdate] = useState<boolean>(false)// after initialization it avoids value from being initiated again.
 
     const setFieldHandler = (e: React.ChangeEvent<HTMLSelectElement>):void => {
-        console.log(e.target.value)
         setField(e.target.value)
         if(canUpdate){
             setQueryArray(prev => prev.map(item => (item.id === id ? {
@@ -33,7 +30,6 @@ const Filter: React.FC<FilterProps> = ({id, showDeleteButton, deleteExtraFilter,
     }
 
     const setConditionHandler = (e: React.ChangeEvent<HTMLSelectElement>): void => {
-        console.log(e.target.value)
         setCondition(e.target.value)
         if(canUpdate){
             setQueryArray(prev => prev.map(item => (item.id === id ? {
@@ -47,7 +43,6 @@ const Filter: React.FC<FilterProps> = ({id, showDeleteButton, deleteExtraFilter,
     }
 
     const setCriteriaHandler = (e: React.ChangeEvent<HTMLSelectElement>): void => {
-        console.log(e.target.value)
         setCriteria(e.target.value)
         if(canUpdate){
             setQueryArray(prev => prev.map(item => (item.id === id ? {
@@ -74,13 +69,10 @@ const Filter: React.FC<FilterProps> = ({id, showDeleteButton, deleteExtraFilter,
 
     if(!canUpdate){
         if(field && condition && criteria){
-            setTimeout(setInitialValues,500)
-            
+            setTimeout(setInitialValues,500)  
         }
     }
     
-
-
     return (
         <div className= "flex justify-start  mb-3"> 
             <div className= "w-1/4 mr-3">
@@ -90,7 +82,6 @@ const Filter: React.FC<FilterProps> = ({id, showDeleteButton, deleteExtraFilter,
                 
                     <option value= "" disabled hidden>Select field</option> 
                     <optgroup className = "my-8" label="PREDICTION">
-                        
                         <option className = "my-4" value = "Theme">Theme</option>
                         <option value = "Sub-theme">Sub-theme</option>
                         <option value = "Reason">Reason</option>
@@ -102,7 +93,7 @@ const Filter: React.FC<FilterProps> = ({id, showDeleteButton, deleteExtraFilter,
                     <optgroup label="COMMON">
                         <option value = "Customer ID">Customer ID</option>
                     </optgroup>
-                    </select>
+                </select>
             </div>
             
             <div className= "w-1/4 mr-3">
@@ -131,11 +122,7 @@ const Filter: React.FC<FilterProps> = ({id, showDeleteButton, deleteExtraFilter,
                     <option>Product Feedback</option>
                 </select>
             </div>
-            {showDeleteButton &&  <div className = "ml-2 mt-5 bg-fifth border border-gray-700 rounded"><span className="material-icons p-1 mt-1 cursor-pointer	" onClick = {() => deleteExtraFilter(id)}>delete</span>
-            </div>}
-            
-            
-            
+            {showDeleteButton &&  <div className = "ml-2 mt-5 bg-fifth border border-gray-700 rounded"><span className="material-icons p-1 mt-1 cursor-pointer	" onClick = {() => deleteExtraFilter(id)}>delete</span></div>}   
         </div>
     )
 }
