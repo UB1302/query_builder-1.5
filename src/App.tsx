@@ -3,7 +3,7 @@ import "./components/Dashboard"
 import Dashboard from './components/Dashboard';
 
 export interface Rule {
-  id: number
+  id?: number
   field?: 'Theme' | 'Sub-theme' | 'Reason' | 'Language' | 'Source' | 'Rating' | 'Time Period' | 'Customer ID' 
   condition?: 'Equals' | 'Does not equal' | 'Like' | 'Not like' | 'Is Empty' | 'Is' | 'Is not'
   criteria?: string
@@ -11,8 +11,8 @@ export interface Rule {
 }
 
 export interface RuleGroup {
-  id:number
-  children: Rule[];
+  id?:number
+  children: (RuleGroup | Rule)[]
   conjunction: 'AND' | 'OR'
   not: boolean
   type: 'rule_group'

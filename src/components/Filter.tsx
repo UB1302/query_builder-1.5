@@ -1,70 +1,78 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {Rule, RuleGroup} from "../App"
 
 interface FilterProps {
     id: number,
     showDeleteButton: boolean,
-    deleteExtraFilter?: any, 
-    queryArray: RuleGroup["children"]
-    setQueryArray: React.Dispatch<React.SetStateAction<Rule[]>>
+    deleteExtraFilter?: any,
+    queryArrayChildren: (RuleGroup | Rule)[],
+    setQueryArrayChildren: React.Dispatch<React.SetStateAction<(RuleGroup | Rule)[]>>
+
 }
 
-const Filter: React.FC<FilterProps> = ({id, showDeleteButton, deleteExtraFilter, queryArray, setQueryArray}) => {
+const Filter: React.FC<FilterProps> = ({id, showDeleteButton, deleteExtraFilter,queryArrayChildren, setQueryArrayChildren}) => {
 
     const [field, setField] = useState<string>("")
     const [condition, setCondition] = useState<string>("")
     const [criteria, setCriteria] = useState<string>("")
     const [canUpdate,setCanUpdate] = useState<boolean>(false)// after initialization it avoids value from being initiated again.
+    const [query,setQuery] = useState<Rule>({
+        id: id,
+        field: field as Rule["field"],
+        condition:condition as Rule["condition"],
+        criteria: criteria,
+        type:"rule"
+    })
 
     const setFieldHandler = (e: React.ChangeEvent<HTMLSelectElement>):void => {
         setField(e.target.value)
         if(canUpdate){
-            setQueryArray(prev => prev.map(item => (item.id === id ? {
+            setQuery( {
                 id: id,
                 field: e.target.value as Rule["field"],
                 condition:condition as Rule["condition"],
                 criteria: criteria,
                 type:"rule"
-            } : item)))
+            })
         }
     }
 
     const setConditionHandler = (e: React.ChangeEvent<HTMLSelectElement>): void => {
         setCondition(e.target.value)
         if(canUpdate){
-            setQueryArray(prev => prev.map(item => (item.id === id ? {
+            setQuery( {
                 id: id,
-                field: field as Rule["field"],
-                condition:e.target.value as Rule["condition"],
+                field: e.target.value as Rule["field"],
+                condition:condition as Rule["condition"],
                 criteria: criteria,
                 type:"rule"
-            } : item)))
+            })
         }
     }
 
     const setCriteriaHandler = (e: React.ChangeEvent<HTMLSelectElement>): void => {
         setCriteria(e.target.value)
         if(canUpdate){
-            setQueryArray(prev => prev.map(item => (item.id === id ? {
+            setQuery( {
                 id: id,
-                field: field as Rule["field"],
+                field: e.target.value as Rule["field"],
                 condition:condition as Rule["condition"],
-                criteria: e.target.value,
+                criteria: criteria,
                 type:"rule"
-            } : item)))
+            })
         }
     }
 
     const setInitialValues = () => {
         setCanUpdate(true)
-        let newQuery:Rule= {
+        setQuery( {
             id:id,
             field: field as Rule["field"],
             condition:condition as Rule["condition"],
             criteria: criteria,
             type:"rule"
-        }
-        setQueryArray([...queryArray,newQuery])
+        })
+        setQueryArrayChildren([...queryArrayChildren, query])
     }
 
     if(!canUpdate){
@@ -72,6 +80,12 @@ const Filter: React.FC<FilterProps> = ({id, showDeleteButton, deleteExtraFilter,
             setTimeout(setInitialValues,500)  
         }
     }
+
+    useEffect(()=>{
+        if(canUpdate){
+            queryArrayChildren.map(item => (item.id === id ? query : item))   
+        }
+    },[query])
     
     return (
         <div className= "flex justify-start  mb-3"> 

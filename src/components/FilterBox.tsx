@@ -1,12 +1,9 @@
-import {useState } from "react";
+import {useEffect, useState } from "react";
 import Filter from "./Filter";
 import {Rule, RuleGroup} from "../App"
 
 interface FilterBoxProps {
-    queryArray: RuleGroup["children"]
-    setQueryArray: React.Dispatch<React.SetStateAction<Rule[]>>
-    conjunction: string
-    setConjunction: React.Dispatch<React.SetStateAction<string>>
+    id: number
 }
 
 interface extraFiltersInterface {// To keep track of filters added by user other then the default filter
@@ -15,11 +12,20 @@ interface extraFiltersInterface {// To keep track of filters added by user other
     }[]
 }
 
-const FilterBox: React.FC<FilterBoxProps> = ({queryArray, setQueryArray, conjunction, setConjunction}) => {
+const FilterBox: React.FC<FilterBoxProps> = ({id}) => {
 
     const [showOperator,setShowOperator] = useState<boolean>(false)
     const [numberOfExtraFilters, setNumberOfExtraFilters] = useState<number>(1)
     const [listOfExtraFilters,setListOfExtraFilters] = useState<extraFiltersInterface["extraFilters"]>([])
+    const [conjunction,setConjunction] = useState("AND")
+    const [queryArray, setQueryArray] = useState<RuleGroup>({
+        id:id,
+        children: [],
+        conjunction: conjunction as RuleGroup["conjunction"],
+        not: false,
+        type: 'rule_group'
+    })
+    const [queryArrayChildren, setQueryArrayChildren] = useState<RuleGroup["children"]>([])
 
     const addHandler = () => {
         setShowOperator(true)
@@ -33,8 +39,8 @@ const FilterBox: React.FC<FilterBoxProps> = ({queryArray, setQueryArray, conjunc
 
     const deleteExtraFilter = (id:number) => {
         let temp = [...listOfExtraFilters].filter((item)=>item.id !== id)
-        let tempQueryArray = [...queryArray].filter((item)=>item.id !== id)
-        setQueryArray(tempQueryArray)
+        let tempQueryArray = [...queryArrayChildren].filter((item)=>item.id !== id)
+        setQueryArrayChildren(tempQueryArray)
         setListOfExtraFilters(temp)
     }
 
@@ -46,6 +52,16 @@ const FilterBox: React.FC<FilterBoxProps> = ({queryArray, setQueryArray, conjunc
         setConjunction("OR")
     }   
 
+    useEffect(()=> {
+        setQueryArray({
+            id:id,
+            children: queryArrayChildren,
+            conjunction: conjunction as RuleGroup["conjunction"],
+            not: false,
+            type: 'rule_group'
+        })
+    },[queryArrayChildren, conjunction])
+
     return(
         <div className = "bg-third rounded border border-gray-700 mt-24 w-11/12 m-auto p-3 mb-4">
             {showOperator && 
@@ -53,9 +69,9 @@ const FilterBox: React.FC<FilterBoxProps> = ({queryArray, setQueryArray, conjunc
                     <button onClick = {andConjunctionHandler} className = {conjunction === "AND" ? "bg-secondary p-1 rounded-l	" : "bg-fifth p-1 rounded-l"}>AND</button>
                     <button onClick = {orConjunctionHandler} className = {conjunction === "OR" ? "bg-secondary p-1 rounded-r" : "bg-fifth p-1 rounded-r"}>OR</button>
                 </div>}
-            <Filter id = {0} showDeleteButton = {false} queryArray = {queryArray} setQueryArray = {setQueryArray}/>
+            <Filter id = {0} showDeleteButton = {false} deleteExtraFilter = {deleteExtraFilter} queryArrayChildren = {queryArrayChildren} setQueryArrayChildren = {setQueryArrayChildren}/>
             {listOfExtraFilters.map((item)=>{
-                return <Filter id = {item.id} key = {item.id} queryArray = {queryArray} setQueryArray = {setQueryArray} showDeleteButton = {true} deleteExtraFilter = {deleteExtraFilter}/>
+                return <Filter id = {item.id} key = {item.id} showDeleteButton = {false} deleteExtraFilter = {deleteExtraFilter} queryArrayChildren = {queryArrayChildren} setQueryArrayChildren = {setQueryArrayChildren}/>
             })}
             <div className ="flex flex-row content-center bg-secondary rounded-md text-sm w-24 p-0.5 cursor-pointer" onClick = {addHandler}>
                 <div className ="p-1 ml-1 mt-px">

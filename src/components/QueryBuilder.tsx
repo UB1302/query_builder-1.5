@@ -12,7 +12,7 @@ const QueryBuilder: React.FC<QueryBuilderProps> = ({setOpenQueryBuilder}) => {
     const [humanReadableQuery,setHumanReadableQuery] = useState<string>("")
     const [result, setResult] = useState<RuleGroup>()
     const [showInputBox,setShowInputBox] = useState<boolean>(false)
-    const [queryArray,setQueryArray] = useState<RuleGroup["children"]>([])
+
     const [conjunction,setConjunction] = useState("AND")
 
     const handleClick = (e:any):void => {
@@ -90,7 +90,7 @@ const QueryBuilder: React.FC<QueryBuilderProps> = ({setOpenQueryBuilder}) => {
                     <span onClick = {closeHandler} className="material-icons-outlined absolute top-2 right-2 pt-0.5 bg-fourth cursor-pointer">close</span>
                 </div>
                 
-                <FilterBox queryArray = {queryArray} setQueryArray = {setQueryArray} conjunction = {conjunction}  setConjunction = {setConjunction}/>
+                <FilterBox id = {0} queryArray = {queryArray} setQueryArray = {setQueryArray} conjunction = {conjunction}  setConjunction = {setConjunction}/>
                 <div className = "flex justify-between mt-20 mr-2 mb-2">
                     <button onClick = {closeHandler} className = "bg-gray-seventh p-2 ml-3 w-20 rounded-md">Back</button>
                     <button onClick = {submitHandler} className = "bg-secondary p-2 w-20 rounded-md">Finish</button>
