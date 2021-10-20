@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {useState, useEffect } from "react";
 import {Rule, RuleGroup} from "../App"
 
 interface FilterProps {
@@ -23,17 +23,28 @@ const Filter: React.FC<FilterProps> = ({id, showDeleteButton, deleteExtraFilter,
         criteria: criteria,
         type:"rule"
     })
+    // console.log("query: " + JSON.stringify(query));
+
 
     const setFieldHandler = (e: React.ChangeEvent<HTMLSelectElement>):void => {
         setField(e.target.value)
         if(canUpdate){
             setQuery( {
+                ...query,
                 id: id,
                 field: e.target.value as Rule["field"],
                 condition:condition as Rule["condition"],
                 criteria: criteria,
                 type:"rule"
             })
+            setQueryArrayChildren(queryArrayChildren.map(item => (item.id === id ? {
+                ...query,
+                id: id,
+                field: e.target.value as Rule["field"],
+                condition:condition as Rule["condition"],
+                criteria: criteria,
+                type:"rule"
+            } : item)))
         }
     }
 
@@ -41,12 +52,21 @@ const Filter: React.FC<FilterProps> = ({id, showDeleteButton, deleteExtraFilter,
         setCondition(e.target.value)
         if(canUpdate){
             setQuery( {
+                ...query,
                 id: id,
                 field: e.target.value as Rule["field"],
                 condition:condition as Rule["condition"],
                 criteria: criteria,
                 type:"rule"
             })
+            setQueryArrayChildren(queryArrayChildren.map(item => (item.id === id ? {
+                ...query,
+                id: id,
+                field: e.target.value as Rule["field"],
+                condition:condition as Rule["condition"],
+                criteria: criteria,
+                type:"rule"
+            } : item)))   
         }
     }
 
@@ -54,38 +74,63 @@ const Filter: React.FC<FilterProps> = ({id, showDeleteButton, deleteExtraFilter,
         setCriteria(e.target.value)
         if(canUpdate){
             setQuery( {
+                ...query,
                 id: id,
                 field: e.target.value as Rule["field"],
                 condition:condition as Rule["condition"],
                 criteria: criteria,
                 type:"rule"
             })
+            setQueryArrayChildren(queryArrayChildren.map(item => (item.id === id ? {
+                ...query,
+                id: id,
+                field: e.target.value as Rule["field"],
+                condition:condition as Rule["condition"],
+                criteria: criteria,
+                type:"rule"
+            } : item)))   
         }
     }
 
     const setInitialValues = () => {
         setCanUpdate(true)
         setQuery( {
+            ...query,
             id:id,
             field: field as Rule["field"],
             condition:condition as Rule["condition"],
             criteria: criteria,
             type:"rule"
         })
-        setQueryArrayChildren([...queryArrayChildren, query])
+        // console.log("query: " + field + condition + criteria)
+        // console.log("query: " + JSON.stringify(query))
+        setQueryArrayChildren([...queryArrayChildren, {
+            ...query,
+            id:id,
+            field: field as Rule["field"],
+            condition:condition as Rule["condition"],
+            criteria: criteria,
+            type:"rule"
+        }])
     }
 
     if(!canUpdate){
         if(field && condition && criteria){
-            setTimeout(setInitialValues,500)  
+            setTimeout(()=>{setInitialValues()},500)
         }
     }
 
-    useEffect(()=>{
-        if(canUpdate){
-            queryArrayChildren.map(item => (item.id === id ? query : item))   
-        }
-    },[query])
+    // useEffect(()=>{
+    //     if(canUpdate){
+    //         setQueryArrayChildren(queryArrayChildren.map(item => (item.id === id ? query : item)))   
+    //     }
+    //     // else if(field && condition && criteria) {
+    //     //     // console.log("query: " + query)
+    //     //     setQueryArrayChildren([...queryArrayChildren, query])
+    //     // }
+    //     // console.log("query: " + JSON.stringify(query))
+    //     // setQueryArrayChildren([...queryArrayChildren, query])
+    // },[query])
     
     return (
         <div className= "flex justify-start  mb-3"> 
