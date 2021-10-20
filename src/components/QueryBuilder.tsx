@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import FilterBox from './FilterBox';
 import {RuleGroup} from "../App"
+import axios from "axios"
 
 interface QueryBuilderProps {
     setOpenQueryBuilder: React.Dispatch<React.SetStateAction<boolean>>
@@ -62,6 +63,16 @@ const QueryBuilder: React.FC<QueryBuilderProps> = ({setOpenQueryBuilder}) => {
         setOpenQueryBuilder(false)
     }
 
+    const submitHandler = () => {
+        axios.post('https://jsonplaceholder.typicode.com/posts', {
+                humanReadableFormat: humanReadableQuery,
+                ruleObjectFormat: result
+        }).then(function(response){
+            console.log("status: "+ response.status)
+            console.log(response.data)
+        })
+    }
+
     return (
         <div className="backdrop" onClick={handleClick}>
             <div className= "modal-content bg-primary  text-base rounded-md overflow-y-auto relative">
@@ -82,7 +93,7 @@ const QueryBuilder: React.FC<QueryBuilderProps> = ({setOpenQueryBuilder}) => {
                 <FilterBox queryArray = {queryArray} setQueryArray = {setQueryArray} conjunction = {conjunction}  setConjunction = {setConjunction}/>
                 <div className = "flex justify-between mt-20 mr-2 mb-2">
                     <button onClick = {closeHandler} className = "bg-gray-seventh p-2 ml-3 w-20 rounded-md">Back</button>
-                    <button className = "bg-secondary p-2 w-20 rounded-md">Finish</button>
+                    <button onClick = {submitHandler} className = "bg-secondary p-2 w-20 rounded-md">Finish</button>
                 </div>
                 
             </div>
